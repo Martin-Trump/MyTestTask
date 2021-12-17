@@ -31,10 +31,8 @@ final class ImageDownloader {
                 let errorUserInfo = [NSLocalizedDescriptionKey: "Ошибка конвертирования данных в изображение"]
                 let error = NSError(domain:"Image", code:401, userInfo:errorUserInfo)
                 completion(nil, error)
-                
                 return
             }
-            
             completion(image, nil)
         })
     }

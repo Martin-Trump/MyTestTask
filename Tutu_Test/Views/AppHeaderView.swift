@@ -94,7 +94,6 @@ class AppDetailHeaderView: UIView {
             ratingLabel.leftAnchor.constraint(equalTo: imageView.leftAnchor),
             ratingLabel.widthAnchor.constraint(equalToConstant: 100),
             ratingLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
-        
         ])
     }
 }

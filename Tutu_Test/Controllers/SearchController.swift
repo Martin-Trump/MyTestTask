@@ -9,43 +9,13 @@ import UIKit
 
 class SearchController: UIViewController {
     
-   
-  private func writeRes(searchRes: Array<ITunesApp>) {
-        do {
-            let fileURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("search.json")
-            print(fileURL.path)
-            try JSONEncoder().encode(searchRes).write(to:fileURL)
-        } catch {
-            print(error)
-        }
-    }
-    
-  private func readRes() {
-        do {
-            let fileURL = try FileManager.default
-                .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                .appendingPathComponent("search.json")
-
-            let data = try Data(contentsOf: fileURL)
-            let readRes = try JSONDecoder().decode([ITunesApp].self, from: data)
-            self.searchResults = readRes
-        } catch {
-            print(error)
-        }
-    }
-    
-    
-    
-    
-    
-    var plus: UIButton = {
+   private var plus: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
         return button
     }()
    
-    
     private let presenter: SearchViewOutput
 
     private var searchView: SearchView {
@@ -93,11 +63,7 @@ class SearchController: UIViewController {
         plus.addTarget(self, action: #selector(res), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: plus)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
+
     @objc private func res() {
            readRes()
     }
@@ -147,9 +113,7 @@ extension SearchController: UISearchBarDelegate {
             return
         }
         self.presenter.viewDidSearch(with: query)
-        
     }
-
 }
 
 extension SearchController: SearchViewInput {
@@ -168,5 +132,29 @@ extension SearchController: SearchViewInput {
     func hideNoResults() {
         self.searchView.emptyResultView.isHidden = true
     }
+   
+    private func writeRes(searchRes: Array<ITunesApp>) {
+          do {
+              let fileURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("search.json")
+              print(fileURL.path)
+              try JSONEncoder().encode(searchRes).write(to:fileURL)
+          } catch {
+              print(error)
+          }
+      }
+    
+    private func readRes() {
+          do {
+              let fileURL = try FileManager.default
+                  .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                  .appendingPathComponent("search.json")
+
+              let data = try Data(contentsOf: fileURL)
+              let readRes = try JSONDecoder().decode([ITunesApp].self, from: data)
+              self.searchResults = readRes
+          } catch {
+              print(error)
+          }
+      }
 }
 
